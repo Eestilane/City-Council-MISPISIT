@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="FormApp/FormApp.csproj" Id="5f38b4e9-db03-4f3a-be72-34a0c531b201" />
+  <Project Path="Server/Server.csproj" Id="23d34b57-3f10-4cc1-a3f8-99d648ebd95b" />
+</Solution>
