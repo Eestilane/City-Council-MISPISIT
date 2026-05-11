@@ -22,7 +22,7 @@ namespace FormApp
             IsAuthenticated = false;
         }
 
-        private async void button1_Click(object sender, EventArgs e)
+        private async void buttonConnect_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(textBoxLogin.Text) || string.IsNullOrEmpty(textBoxPassword.Text))
             {
@@ -30,13 +30,13 @@ namespace FormApp
                 return;
             }
 
-            button1.Enabled = false;
+            buttonConnect.Enabled = false;
             label3.Text = "Подключение к серверу...";
 
             if (!await Server.ConnectAsync())
             {
                 label3.Text = "Ошибка подключения к серверу";
-                button1.Enabled = true;
+                buttonConnect.Enabled = true;
                 return;
             }
 
@@ -53,9 +53,36 @@ namespace FormApp
             else
             {
                 label3.Text = "Ошибка: " + response;
-                button1.Enabled = true;
+                buttonConnect.Enabled = true;
                 Server.Disconnect();
             }
+        }
+
+        private void buttonRegister_Click(object sender, EventArgs e)
+        {
+            using (var registerForm = new RegisterForm(Server))
+            {
+                if (registerForm.ShowDialog() != DialogResult.OK)
+                {
+                    Application.Exit();
+                    return;
+                }
+            }
+        }
+
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -16,6 +16,9 @@ namespace Server
         public string District { get; set; }
         public string Party { get; set; }
         public string Status { get; set; }
+        public string Login { get; set; }
+        public string Password { get; set; }
+        public string Role { get; set; }
 
         public virtual ICollection<Vote> Votes { get; set; }
     }
@@ -55,27 +58,31 @@ namespace Server
         public virtual Deputy DeputyNavigation { get; set; }
     }
 
-    public class User
-    {
-        public int Id { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string Role { get; set; }
-    }
-
     public class VotingDbContext : DbContext
     {
         public DbSet<Deputy> Deputies { get; set; }
         public DbSet<Meeting> Meetings { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Vote> Votes { get; set; }
-        public DbSet<User> Users { get; set; }
+
+        public VotingDbContext() : base()
+        {
+
+        }
+
+        public VotingDbContext(DbContextOptions<VotingDbContext> options) : base(options)
+        {
+
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string dbFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "votingDB.mdf");
-            string connectionString = $@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={dbFilePath};Integrated Security=True;Connect Timeout=30";
-            optionsBuilder.UseSqlServer(connectionString);
+            if (!optionsBuilder.IsConfigured)
+            {
+                string dbFilePath = @"F:\Учёба\3 Курс\МИСПИСИТ\Server\Server\votingDB.mdf";
+                string connectionString = $@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={dbFilePath};Integrated Security=True;Connect Timeout=30";
+                optionsBuilder.UseSqlServer(connectionString);
+            } 
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

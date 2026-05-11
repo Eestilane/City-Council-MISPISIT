@@ -11,6 +11,9 @@ namespace VotingSystemWinForms
         public string District { get; set; }
         public string Party { get; set; }
         public string Status { get; set; }
+        public string Login { get; set; }
+        public string Password { get; set; }
+        public string Role { get; set; }
     }
 
     public class Meeting
@@ -37,12 +40,5 @@ namespace VotingSystemWinForms
         public int ProjectNumber { get; set; }
         public int Deputy { get; set; }
         public string Result { get; set; }
-    }
-
-    public class User
-    {
-        public int Id { get; set; }
-        public string Username { get; set; }
-        public string Role { get; set; }
     }
 }
