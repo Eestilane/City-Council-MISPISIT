@@ -13,7 +13,11 @@ namespace FormApp
 {
     public partial class MainForm : Form
     {
-        private ServerClient server;
+        private ServerClient Server;
+        private string currentTable = "";
+        private int editingRowId = -1;
+        private string editingColumn = "";
+        private string newValue = "";
 
         public MainForm()
         {
@@ -29,15 +33,34 @@ namespace FormApp
                     Application.Exit();
                     return;
                 }
-                server = loginForm.Server;
+                Server = loginForm.Server;
             }
             MessageBox.Show("Авторизация успешна!", "Добро пожаловать");
+        }
+
+        private int GetSelectedId()
+        {
+            if (dataGridView1.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Выделите строку");
+                return -1;
+            }
+
+            object idValue = dataGridView1.SelectedRows[0].Cells[0].Value;
+
+            if (idValue == null || !int.TryParse(idValue.ToString(), out int id))
+            {
+                MessageBox.Show("Не удалось получить ID");
+                return -1;
+            }
+
+            return id;
         }
 
         //Тест
         private async void button1_Click(object sender, EventArgs e)
         {
-            string response = await server.SendCommand("TEST");
+            string response = await Server.SendCommand("TEST");
             MessageBox.Show($"Ответ сервера: {response}");
         }
 
@@ -51,7 +74,7 @@ namespace FormApp
                 return;
             }
 
-            string response = await server.SendCommand($"EXECUTE_SQL|{sql}");
+            string response = await Server.SendCommand($"EXECUTE_SQL|{sql}");
 
             if (response.StartsWith("SQL_RESULT"))
             {
@@ -98,7 +121,7 @@ namespace FormApp
         //ORM список депутатов
         private async void button2_Click(object sender, EventArgs e)
         {
-            string response = await server.SendCommand("GET_DEPUTIES");
+            string response = await Server.SendCommand("GET_DEPUTIES");
 
             if (response.StartsWith("DEPUTIES"))
             {
@@ -128,12 +151,13 @@ namespace FormApp
             {
                 MessageBox.Show($"Ошибка: {response}");
             }
+            currentTable = "deputies";
         }
 
         //ORM список собраний
         private async void button3_Click(object sender, EventArgs e)
         {
-            string response = await server.SendCommand("GET_MEETINGS");
+            string response = await Server.SendCommand("GET_MEETINGS");
 
             if (response.StartsWith("MEETINGS"))
             {
@@ -156,16 +180,18 @@ namespace FormApp
                 }
                 dataGridView1.DataSource = meetings;
             }
+
             else
             {
                 MessageBox.Show($"Ошибка: {response}");
             }
+            currentTable = "meetings";
         }
 
         //ORM список проектов
         private async void button4_Click(object sender, EventArgs e)
         {
-            string response = await server.SendCommand("GET_PROJECTS");
+            string response = await Server.SendCommand("GET_PROJECTS");
 
             if (response.StartsWith("PROJECTS"))
             {
@@ -188,16 +214,18 @@ namespace FormApp
                 }
                 dataGridView1.DataSource = projects;
             }
+
             else
             {
                 MessageBox.Show($"Ошибка: {response}");
             }
+            currentTable = "projects";
         }
 
         //ORM список голосований
         private async void button5_Click(object sender, EventArgs e)
         {
-            string response = await server.SendCommand("GET_VOTES");
+            string response = await Server.SendCommand("GET_VOTES");
 
             if (response.StartsWith("VOTES"))
             {
@@ -219,25 +247,150 @@ namespace FormApp
                 }
                 dataGridView1.DataSource = votes;
             }
+
             else
             {
                 MessageBox.Show($"Ошибка: {response}");
             }
+            currentTable = "votes";
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            server?.Disconnect();
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
+            Server?.Disconnect();
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
             dataGridView1.DataSource = null;
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            Form form = new AddNewProjectsForm(Server);
+            form.Show();
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            Delete("ORM");
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            Delete("SQL");
+        }
+
+        // Удаление данных
+        private async void Delete(String str)
+        {
+            int id = GetSelectedId();
+            if (id == -1) return;
+
+            string command = "DELETE_" + str + $"|{currentTable}|{id}";
+
+            string response = await Server.SendCommand(command);
+            MessageBox.Show(response);
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            Replace("ORM");
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            Replace("SQL");
+        }
+
+        private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            editingRowId = (int)dataGridView1.Rows[e.RowIndex].Cells[0].Value;
+            editingColumn = dataGridView1.Columns[e.ColumnIndex].Name;
+        }
+
+        private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            newValue = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value?.ToString() ?? "";
+        }
+
+        //Изменение данных
+        private async void Replace(String str)
+        {
+            if (editingRowId == -1)
+            {
+                MessageBox.Show("Сначала отредактируйте ячейку");
+                return;
+            }
+
+            string command = $"UPDATE_" + str + $"|{currentTable}|{editingRowId}|{editingColumn}|{newValue}";
+            string response = await Server.SendCommand(command);
+            MessageBox.Show(response);
+
+            editingRowId = -1;
+        }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            Search("ORM");
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            Search("SQL");
+        }
+
+        //Поиск данных
+        private async void Search(String str)
+        {
+            if (string.IsNullOrEmpty(currentTable))
+            {
+                MessageBox.Show("Сначала загрузите таблицу");
+                return;
+            }
+
+            string command = $"SEARCH_" + str + $"|{currentTable}|{textBox1.Text}";
+            string response = await Server.SendCommand(command);
+            DisplaySearchResults(response);
+        }
+
+        private void DisplaySearchResults(string response)
+        {
+            if (response.StartsWith("SEARCH_RESULT"))
+            {
+                string[] parts = response.Split('|');
+                var dt = new System.Data.DataTable();
+
+                if (parts.Length < 2)
+                {
+                    dataGridView1.DataSource = null;
+                    return;
+                }
+
+                string[] columnNames = parts[1].Split(',');
+                foreach (string colName in columnNames)
+                {
+                    dt.Columns.Add(colName);
+                }
+
+                for (int i = 2; i < parts.Length; i++)
+                {
+                    string[] rowData = parts[i].Split(',');
+                    if (rowData.Length == columnNames.Length)
+                    {
+                        dt.Rows.Add(rowData);
+                    }
+                }
+
+                dataGridView1.DataSource = dt;
+
+                if (dt.Rows.Count == 0)
+                    MessageBox.Show("Ничего не найдено");
+            }
+            else
+            {
+                MessageBox.Show($"Ошибка: {response}");
+            }
         }
     }
 }

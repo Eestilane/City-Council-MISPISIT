@@ -57,5 +57,32 @@ namespace FormApp
                 Server.Disconnect();
             }
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            using (var registerForm = new RegisterForm(Server))
+            {
+                if (registerForm.ShowDialog() != DialogResult.OK)
+                {
+                    Application.Exit();
+                    return;
+                }
+            }
+        }
+
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
