@@ -40,14 +40,23 @@
             this.label2 = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.button7 = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.button8 = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.button9 = new System.Windows.Forms.Button();
+            this.button10 = new System.Windows.Forms.Button();
+            this.button11 = new System.Windows.Forms.Button();
+            this.button12 = new System.Windows.Forms.Button();
+            this.button13 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 646);
+            this.button1.Location = new System.Drawing.Point(12, 639);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(75, 30);
             this.button1.TabIndex = 0;
             this.button1.Text = "Тест";
             this.button1.UseVisualStyleBackColor = true;
@@ -58,8 +67,10 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(557, 12);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(695, 628);
+            this.dataGridView1.Size = new System.Drawing.Size(695, 621);
             this.dataGridView1.TabIndex = 1;
+            this.dataGridView1.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView1_CellBeginEdit);
+            this.dataGridView1.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEndEdit);
             // 
             // textBox1
             // 
@@ -75,7 +86,7 @@
             // 
             this.buttonEnter.Location = new System.Drawing.Point(476, 28);
             this.buttonEnter.Name = "buttonEnter";
-            this.buttonEnter.Size = new System.Drawing.Size(75, 23);
+            this.buttonEnter.Size = new System.Drawing.Size(75, 30);
             this.buttonEnter.TabIndex = 3;
             this.buttonEnter.Text = "Enter";
             this.buttonEnter.UseVisualStyleBackColor = true;
@@ -83,9 +94,9 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(12, 588);
+            this.button2.Location = new System.Drawing.Point(12, 567);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(226, 23);
+            this.button2.Size = new System.Drawing.Size(226, 30);
             this.button2.TabIndex = 4;
             this.button2.Text = "Список депутатов";
             this.button2.UseVisualStyleBackColor = true;
@@ -93,9 +104,9 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(244, 588);
+            this.button3.Location = new System.Drawing.Point(244, 566);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(226, 23);
+            this.button3.Size = new System.Drawing.Size(226, 30);
             this.button3.TabIndex = 5;
             this.button3.Text = "Список собраний";
             this.button3.UseVisualStyleBackColor = true;
@@ -103,9 +114,9 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(12, 617);
+            this.button4.Location = new System.Drawing.Point(12, 603);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(226, 23);
+            this.button4.Size = new System.Drawing.Size(226, 30);
             this.button4.TabIndex = 6;
             this.button4.Text = "Список проектов";
             this.button4.UseVisualStyleBackColor = true;
@@ -113,9 +124,9 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(244, 617);
+            this.button5.Location = new System.Drawing.Point(244, 602);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(226, 23);
+            this.button5.Size = new System.Drawing.Size(226, 30);
             this.button5.TabIndex = 7;
             this.button5.Text = "Список голосований";
             this.button5.UseVisualStyleBackColor = true;
@@ -133,7 +144,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(15, 569);
+            this.label2.Location = new System.Drawing.Point(12, 479);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(75, 13);
             this.label2.TabIndex = 9;
@@ -141,9 +152,9 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(557, 646);
+            this.button6.Location = new System.Drawing.Point(557, 639);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(695, 23);
+            this.button6.Size = new System.Drawing.Size(695, 30);
             this.button6.TabIndex = 10;
             this.button6.Text = "Очистить сетку";
             this.button6.UseVisualStyleBackColor = true;
@@ -157,13 +168,109 @@
             this.label3.Size = new System.Drawing.Size(307, 13);
             this.label3.TabIndex = 11;
             this.label3.Text = "Используйте для VALUES N: VALUES  (N\'Иванов\', N\'Иван\');";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(12, 433);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(226, 30);
+            this.button7.TabIndex = 12;
+            this.button7.Text = "Добавить проект";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 417);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(108, 13);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "SQL и ORM Методы";
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(12, 531);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(226, 30);
+            this.button8.TabIndex = 14;
+            this.button8.Text = "Удалить запись ORM";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(12, 319);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(71, 13);
+            this.label5.TabIndex = 15;
+            this.label5.Text = "SQL Методы";
+            // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(12, 371);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(226, 30);
+            this.button9.TabIndex = 16;
+            this.button9.Text = "Удалить запись SQL";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
+            // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(12, 495);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(226, 30);
+            this.button10.TabIndex = 17;
+            this.button10.Text = "Сохранить изменения ORM";
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
+            // 
+            // button11
+            // 
+            this.button11.Location = new System.Drawing.Point(12, 335);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(226, 30);
+            this.button11.TabIndex = 18;
+            this.button11.Text = "Сохранить изменения SQL";
+            this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
+            // 
+            // button12
+            // 
+            this.button12.Location = new System.Drawing.Point(12, 74);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(226, 30);
+            this.button12.TabIndex = 19;
+            this.button12.Text = "Поиск SQL";
+            this.button12.UseVisualStyleBackColor = true;
+            this.button12.Click += new System.EventHandler(this.button12_Click);
+            // 
+            // button13
+            // 
+            this.button13.Location = new System.Drawing.Point(244, 74);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(226, 30);
+            this.button13.TabIndex = 20;
+            this.button13.Text = "Поиск ORM";
+            this.button13.UseVisualStyleBackColor = true;
+            this.button13.Click += new System.EventHandler(this.button13_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.Controls.Add(this.button13);
+            this.Controls.Add(this.button12);
+            this.Controls.Add(this.button11);
+            this.Controls.Add(this.button10);
+            this.Controls.Add(this.button9);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.button8);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.button7);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.label2);
@@ -200,6 +307,15 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.Button button13;
     }
 }
 
